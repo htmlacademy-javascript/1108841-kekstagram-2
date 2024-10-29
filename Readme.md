@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Илья Староверов](https://up.htmlacademy.ru/javascript-individual/2/user/1108841).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Лепёшкин](https://htmlacademy.ru/profile/spearance).
 
 ---
 
