@@ -1,11 +1,9 @@
-const checkStringLength = (string, numberCharacters) =>
+const checkStringLength = (string = '', numberCharacters = 1) =>
   string.length <= numberCharacters;
 
-// checkStringLength('проверяемая строка', 20);
+checkStringLength();
 
-//---
-
-const checkPalindrome = (palindrome) => {
+const checkPalindrome = (palindrome = '') => {
   palindrome = palindrome.toUpperCase().replaceAll(' ', '');
   let reversePalindrome = '';
   for (let i = palindrome.length - 1; i >= 0; i--) {
@@ -13,6 +11,20 @@ const checkPalindrome = (palindrome) => {
   }
   return reversePalindrome === palindrome;
 };
-//checkPalindrome('Лёша на полке клопа нашёл ');
 
-//---
+checkPalindrome();
+
+const getDigits = (string = '') => {
+  string = string.toString();
+  let result = '';
+  for (let i = 0; i < string.length; i++) {
+    const dig = string[i];
+    if (!isNaN(parseInt(dig, 10))) {
+      result += dig;
+    }
+  }
+  const finalResult = parseInt(result, 10);
+  return Number.isNaN(finalResult) ? NaN : finalResult;
+};
+
+getDigits();
