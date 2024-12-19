@@ -1,4 +1,5 @@
 import '../vendor/pristine/pristine.min.js';
+import { initEffects, initScale, resetEffects } from './image-effects.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -86,6 +87,7 @@ function closeUploadOverlay() {
   document.body.classList.remove('modal-open');
   uploadForm.reset();
   pristine.reset();
+  resetEffects();
   document.removeEventListener('keydown', onEscKeyDown);
 }
 
@@ -99,6 +101,8 @@ const onUploadInputChange = () => {
   uploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyDown);
+  initEffects();
+  initScale();
 };
 
 const onUploadFormSubmit = (evt) => {
