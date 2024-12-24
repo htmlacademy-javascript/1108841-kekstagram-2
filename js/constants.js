@@ -36,11 +36,17 @@ const Filter = {
   DISCUSSED: 'filter-discussed'
 };
 
+const ModalClass = {
+  HIDDEN: 'hidden',
+  MODAL_OPEN: 'modal-open'
+};
+
 export {
   SubmitButtonText,
   ErrorMessage,
   ValidationSettings,
   CommentsSettings,
   FilterSettings,
-  Filter
+  Filter,
+  ModalClass
 };
