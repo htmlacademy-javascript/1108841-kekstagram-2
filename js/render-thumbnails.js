@@ -14,7 +14,7 @@ const createThumbnail = (picture) => {
   return pictureElement;
 };
 
-const addThumbnailClickHandler = (thumbnailElement, picture) => {
+const createBigPhotoLink = (thumbnailElement, picture) => {
   const thumbnailLink = thumbnailElement.querySelector('.picture');
   thumbnailLink.addEventListener('click', (evt) => {
     evt.preventDefault();
@@ -28,7 +28,7 @@ const renderPictures = (pictures) => {
 
   pictures.forEach((picture) => {
     const thumbnailElement = createThumbnail(picture);
-    addThumbnailClickHandler(thumbnailElement, picture);
+    createBigPhotoLink(thumbnailElement, picture);
     fragment.appendChild(thumbnailElement);
   });
 
