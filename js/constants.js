@@ -25,4 +25,22 @@ const CommentsSettings = {
   COMMENTS_PER_PORTION: 5
 };
 
-export { SubmitButtonText, ErrorMessage, ValidationSettings, CommentsSettings };
+const FilterSettings = {
+  RANDOM_PHOTOS_COUNT: 10,
+  DEBOUNCE_DELAY: 500
+};
+
+const Filter = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed'
+};
+
+export {
+  SubmitButtonText,
+  ErrorMessage,
+  ValidationSettings,
+  CommentsSettings,
+  FilterSettings,
+  Filter
+};
