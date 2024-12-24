@@ -1,7 +1,15 @@
-import { generatePhotos } from './util.js';
 import { renderPictures } from './render-thumbnails.js';
-import { MOCK_PHOTO } from './mocks-photo.js';
+import { getData } from './api.js';
+import { showError } from './show-error.js';
 import './form.js';
 
-generatePhotos();
-renderPictures(MOCK_PHOTO);
+const initGallery = async () => {
+  try {
+    const pictures = await getData();
+    renderPictures(pictures);
+  } catch (err) {
+    showError(err.message);
+  }
+};
+
+initGallery();

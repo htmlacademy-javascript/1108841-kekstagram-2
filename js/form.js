@@ -1,5 +1,8 @@
 import '../vendor/pristine/pristine.min.js';
 import { initEffects, initScale, resetEffects } from './image-effects.js';
+import { sendData } from './api.js';
+import { showMessage } from './show-message.js';
+import { isEscapeKey } from './utils.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -82,6 +85,18 @@ pristine.addValidator(
   'Комментарий не может быть длиннее 140 символов'
 );
 
+const blockSubmitButton = () => {
+  const submitButton = uploadForm.querySelector('.img-upload__submit');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  const submitButton = uploadForm.querySelector('.img-upload__submit');
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
 function closeUploadOverlay() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -92,7 +107,7 @@ function closeUploadOverlay() {
 }
 
 function onEscKeyDown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     closeUploadOverlay();
   }
 }
@@ -105,15 +120,27 @@ const onUploadInputChange = () => {
   initScale();
 };
 
-const onUploadFormSubmit = (evt) => {
+const onUploadFormSubmit = async (evt) => {
   evt.preventDefault();
-  if (pristine.validate()) {
-    uploadForm.submit();
+
+  if (!pristine.validate()) {
+    return;
+  }
+
+  try {
+    blockSubmitButton();
+    await sendData(new FormData(uploadForm));
+    unblockSubmitButton();
+    closeUploadOverlay();
+    showMessage('success');
+  } catch (err) {
+    unblockSubmitButton();
+    showMessage('error');
   }
 };
 
 const preventEscClose = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 };

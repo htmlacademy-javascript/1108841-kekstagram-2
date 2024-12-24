@@ -1,3 +1,5 @@
+import { isEscapeKey } from './utils.js';
+
 const COMMENTS_PER_PORTION = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -44,16 +46,22 @@ const showComments = () => {
   }
 };
 
-const renderBigPicture = ({ url, likes, comments, description }) => {
+const renderBigPictureDetails = ({ url, likes, description }) => {
   bigPictureImg.src = url;
   likesCount.textContent = likes;
-  commentsList.innerHTML = '';
   photoDescription.textContent = description;
+};
 
+const initComments = (comments) => {
+  commentsList.innerHTML = '';
   currentComments = comments;
   shownComments = 0;
-
   totalCommentsCount.textContent = comments.length;
+};
+
+const renderBigPicture = (photoData) => {
+  renderBigPictureDetails(photoData);
+  initComments(photoData.comments);
   showComments();
 };
 
@@ -76,7 +84,7 @@ function closeBigPicture() {
 }
 
 function onEscKeyDown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     closeBigPicture();
   }
 }
