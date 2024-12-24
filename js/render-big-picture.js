@@ -1,4 +1,4 @@
-import { isEscapeKey } from './utils.js';
+import { closeModal, openModal, createEscapeHandler } from './modal.js';
 
 const COMMENTS_PER_PORTION = 5;
 const bigPicture = document.querySelector('.big-picture');
@@ -16,6 +16,7 @@ const commentCount = bigPicture.querySelector('.social__comment-count');
 let isLiked = false;
 let currentComments = [];
 let shownComments = 0;
+let escapeHandler = null;
 
 const renderComment = ({ avatar, name, message }) => {
   const comment = document.createElement('li');
@@ -65,6 +66,17 @@ const renderBigPicture = (photoData) => {
   showComments();
 };
 
+const closeBigPicture = () => {
+  closeModal(bigPicture, escapeHandler);
+};
+
+const openBigPicture = (photoData) => {
+  escapeHandler = createEscapeHandler(closeBigPicture);
+  openModal(bigPicture, escapeHandler);
+  commentCount.classList.remove('hidden');
+  renderBigPicture(photoData);
+};
+
 likesCount.addEventListener('click', () => {
   if (!isLiked) {
     const currentLikes = parseInt(likesCount.textContent, 10);
@@ -77,29 +89,7 @@ likesCount.addEventListener('click', () => {
   }
 });
 
-function closeBigPicture() {
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscKeyDown);
-}
-
-function onEscKeyDown(evt) {
-  if (isEscapeKey(evt)) {
-    closeBigPicture();
-  }
-}
-
-const openBigPicture = (photoData) => {
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  commentCount.classList.remove('hidden');
-
-  renderBigPicture(photoData);
-  document.addEventListener('keydown', onEscKeyDown);
-};
-
 commentsLoader.addEventListener('click', showComments);
-
 closeButton.addEventListener('click', closeBigPicture);
 
 export { openBigPicture };
