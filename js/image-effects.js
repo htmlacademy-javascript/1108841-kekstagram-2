@@ -141,7 +141,6 @@ const initEffects = () => {
   effectsListElement.addEventListener('change', onEffectChange);
 };
 
-// Scale
 const setScale = (value) => {
   const scale = value / 100;
   scaleInputElement.value = `${value}%`;
