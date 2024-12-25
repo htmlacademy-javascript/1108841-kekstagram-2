@@ -1,4 +1,4 @@
-import { createEscapeHandler } from './modal.js';
+import { setErrorState } from './modal.js';
 
 const showMessage = (type) => {
   const template = document.querySelector(`#${type}`).content;
@@ -8,10 +8,17 @@ const showMessage = (type) => {
   const messageElement = document.querySelector(`.${type}`);
   let escapeHandler = null;
 
+  if (type === 'error') {
+    setErrorState(true);
+  }
+
   const closeMessage = () => {
     messageElement.remove();
     document.removeEventListener('keydown', escapeHandler);
     document.removeEventListener('click', onOutsideClick);
+    if (type === 'error') {
+      setErrorState(false);
+    }
   };
 
   function onOutsideClick(evt) {
@@ -20,7 +27,12 @@ const showMessage = (type) => {
     }
   }
 
-  escapeHandler = createEscapeHandler(closeMessage);
+  escapeHandler = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.stopPropagation();
+      closeMessage();
+    }
+  };
 
   document.querySelector(`.${type}__button`).addEventListener('click', closeMessage);
   document.addEventListener('keydown', escapeHandler);

@@ -87,7 +87,7 @@ const showSlider = () => {
 
 const onSliderUpdate = () => {
   const value = effectSlider.noUiSlider.get();
-  effectLevel.value = value;
+  effectLevel.value = Number(value).toString();
   const { filter, unit } = EffectSettings[currentEffect];
   previewImage.style.filter = isDefault()
     ? ''
@@ -124,6 +124,7 @@ const onEffectChange = (evt) => {
     return;
   }
   destroySlider();
+  effectLevel.value = '';
   currentEffect = evt.target.value;
   previewImage.className = `effects__preview--${currentEffect}`;
 
