@@ -1,16 +1,11 @@
 import { ValidationSettings, ErrorMessage } from './constants.js';
 
 const validateHashtags = (value) => {
-  if (!value) {
+  if (!value || value.trim() === '') {
     return true;
   }
 
   const hashtags = value.toLowerCase().trim().split(/\s+/);
-
-  // Проверяем пустую строку
-  if (value.trim() === '') {
-    return true;
-  }
 
   // Проверяем максимальное количество хэштегов
   if (hashtags.length > ValidationSettings.MAX_HASHTAGS) {
@@ -35,12 +30,14 @@ const getHashtagsErrorMessage = (value) => {
   const hashtags = value.toLowerCase().trim().split(/\s+/);
   const uniqueHashtags = new Set(hashtags);
 
-  if (hashtags.length > ValidationSettings.MAX_HASHTAGS) {
-    return ErrorMessage.HASHTAG_COUNT;
-  }
+  const validationErrors = {
+    [hashtags.length > ValidationSettings.MAX_HASHTAGS]: ErrorMessage.HASHTAG_COUNT,
+    [uniqueHashtags.size !== hashtags.length]: ErrorMessage.HASHTAG_DUPLICATE,
+  };
 
-  if (uniqueHashtags.size !== hashtags.length) {
-    return ErrorMessage.HASHTAG_DUPLICATE;
+  const errorEntry = Object.entries(validationErrors).find(([condition]) => condition === 'true');
+  if (errorEntry) {
+    return errorEntry[1];
   }
 
   const invalidHashtag = hashtags.find((hashtag) => !ValidationSettings.VALID_HASHTAG_PATTERN.test(hashtag));

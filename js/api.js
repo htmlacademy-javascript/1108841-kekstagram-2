@@ -1,4 +1,4 @@
-const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/'
@@ -14,7 +14,7 @@ const ErrorText = {
   SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз'
 };
 
-const load = async (route, errorText, method = Method.GET, body = null) => {
+const loadData = async (route, errorText, method = Method.GET, body = null) => {
   try {
     const response = await fetch(`${BASE_URL}${route}`, {
       method,
@@ -31,9 +31,9 @@ const load = async (route, errorText, method = Method.GET, body = null) => {
   }
 };
 
-const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
+const getData = () => loadData(Route.GET_DATA, ErrorText.GET_DATA);
 
-const sendData = (body) => load(
+const sendData = (body) => loadData(
   Route.SEND_DATA,
   ErrorText.SEND_DATA,
   Method.POST,

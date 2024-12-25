@@ -1,14 +1,14 @@
-const SHOW_ERROR_TIME = 5000;
+const ERROR_SHOW_DELAY = 5000;
 
 const showError = (message) => {
   const errorTemplate = document.querySelector('#data-error').content;
-  const error = errorTemplate.cloneNode(true);
-  error.querySelector('.data-error__title').textContent = message;
-  document.body.append(error);
+  const errorElement = errorTemplate.cloneNode(true);
+  errorElement.querySelector('.data-error__title').textContent = message;
+  document.body.append(errorElement);
 
   setTimeout(() => {
-    error.remove();
-  }, SHOW_ERROR_TIME);
+    errorElement.remove();
+  }, ERROR_SHOW_DELAY);
 };
 
 export { showError };
