@@ -4,7 +4,7 @@ import { renderPictures } from './render-thumbnails.js';
 import { initFilters } from './filter.js';
 import './form.js';
 
-const bootstrap = async () => {
+const initApp = async () => {
   try {
     const photos = await getData();
     renderPictures(photos);
@@ -14,4 +14,4 @@ const bootstrap = async () => {
   }
 };
 
-bootstrap();
+initApp();

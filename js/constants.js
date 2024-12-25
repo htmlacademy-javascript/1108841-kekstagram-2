@@ -41,6 +41,19 @@ const ModalClass = {
   MODAL_OPEN: 'modal-open'
 };
 
+const CommentAvatarSize = {
+  WIDTH: 35,
+  HEIGHT: 35
+};
+
+const Key = {
+  ESCAPE: 'Escape'
+};
+
+const ErrorSettings = {
+  SHOW_DELAY: 5000
+};
+
 export {
   SubmitButtonText,
   ErrorMessage,
@@ -48,5 +61,8 @@ export {
   CommentsSettings,
   FilterSettings,
   Filter,
-  ModalClass
+  ModalClass,
+  CommentAvatarSize,
+  Key,
+  ErrorSettings
 };

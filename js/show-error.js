@@ -1,4 +1,4 @@
-const ERROR_SHOW_DELAY = 5000;
+import { ErrorSettings } from './constants.js';
 
 const showError = (message) => {
   const errorTemplate = document.querySelector('#data-error').content;
@@ -8,7 +8,7 @@ const showError = (message) => {
 
   setTimeout(() => {
     errorElement.remove();
-  }, ERROR_SHOW_DELAY);
+  }, ErrorSettings.SHOW_DELAY);
 };
 
 export { showError };

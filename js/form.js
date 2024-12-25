@@ -112,7 +112,6 @@ uploadForm.addEventListener('submit', onUploadFormSubmit);
 hashtagInput.addEventListener('keydown', preventEscClose);
 commentInput.addEventListener('keydown', preventEscClose);
 
-// Добавляем обработчик ввода для немедленной валидации
 hashtagInput.addEventListener('input', () => {
   pristine.validate(hashtagInput);
 });

@@ -1,6 +1,6 @@
 import { closeModal, openModal, createEscapeHandler } from './modal.js';
+import { CommentAvatarSize, CommentsSettings, ModalClass } from './constants.js';
 
-const COMMENTS_PER_PORTION = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -13,37 +13,49 @@ const photoDescription = bigPicture.querySelector('.social__caption');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentCount = bigPicture.querySelector('.social__comment-count');
-let isLiked = false;
-let currentComments = [];
-let shownComments = 0;
-let escapeHandler = null;
+
+const bigPictureState = {
+  currentComments: [],
+  shownComments: 0,
+  isLiked: false,
+  escapeHandler: null
+};
 
 const renderComment = ({ avatar, name, message }) => {
   const comment = document.createElement('li');
   comment.classList.add('social__comment');
-  comment.innerHTML = `
-    <img class="social__picture" src="${avatar}" alt="${name}" width="35" height="35">
-    <p class="social__text">${message}</p>
-  `;
+
+  const img = document.createElement('img');
+  img.classList.add('social__picture');
+  img.src = avatar;
+  img.alt = name;
+  img.width = CommentAvatarSize.WIDTH;
+  img.height = CommentAvatarSize.HEIGHT;
+
+  const text = document.createElement('p');
+  text.classList.add('social__text');
+  text.textContent = message;
+
+  comment.append(img, text);
   return comment;
 };
 
 const showComments = () => {
-  const commentsToShow = currentComments.slice(
-    shownComments,
-    shownComments + COMMENTS_PER_PORTION
+  const commentsToShow = bigPictureState.currentComments.slice(
+    bigPictureState.shownComments,
+    bigPictureState.shownComments + CommentsSettings.COMMENTS_PER_PORTION
   );
   commentsToShow.forEach((comment) => {
     commentsList.append(renderComment(comment));
   });
 
-  shownComments += commentsToShow.length;
-  commentsCount.textContent = shownComments;
+  bigPictureState.shownComments += commentsToShow.length;
+  commentsCount.textContent = bigPictureState.shownComments;
 
-  if (shownComments >= currentComments.length) {
-    commentsLoader.classList.add('hidden');
+  if (bigPictureState.shownComments >= bigPictureState.currentComments.length) {
+    commentsLoader.classList.add(ModalClass.HIDDEN);
   } else {
-    commentsLoader.classList.remove('hidden');
+    commentsLoader.classList.remove(ModalClass.HIDDEN);
   }
 };
 
@@ -55,8 +67,8 @@ const renderBigPictureDetails = ({ url, likes, description }) => {
 
 const initComments = (comments) => {
   commentsList.innerHTML = '';
-  currentComments = comments;
-  shownComments = 0;
+  bigPictureState.currentComments = comments;
+  bigPictureState.shownComments = 0;
   totalCommentsCount.textContent = comments.length;
 };
 
@@ -67,25 +79,25 @@ const renderBigPicture = (photoData) => {
 };
 
 const closeBigPicture = () => {
-  closeModal(bigPicture, escapeHandler);
+  closeModal(bigPicture, bigPictureState.escapeHandler);
 };
 
 const openBigPicture = (photoData) => {
-  escapeHandler = createEscapeHandler(closeBigPicture);
-  openModal(bigPicture, escapeHandler);
-  commentCount.classList.remove('hidden');
+  bigPictureState.escapeHandler = createEscapeHandler(closeBigPicture);
+  openModal(bigPicture, bigPictureState.escapeHandler);
+  commentCount.classList.remove(ModalClass.HIDDEN);
   renderBigPicture(photoData);
 };
 
 likesCount.addEventListener('click', () => {
-  if (!isLiked) {
+  if (!bigPictureState.isLiked) {
     const currentLikes = parseInt(likesCount.textContent, 10);
     likesCount.textContent = currentLikes + 1;
-    isLiked = true;
+    bigPictureState.isLiked = true;
   } else {
     const currentLikes = parseInt(likesCount.textContent, 10);
     likesCount.textContent = currentLikes - 1;
-    isLiked = false;
+    bigPictureState.isLiked = false;
   }
 });
 
