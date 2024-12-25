@@ -7,18 +7,15 @@ const validateHashtags = (value) => {
 
   const hashtags = value.toLowerCase().trim().split(/\s+/);
 
-  // Проверяем максимальное количество хэштегов
   if (hashtags.length > ValidationSettings.MAX_HASHTAGS) {
     return false;
   }
 
-  // Проверяем уникальность хэштегов
   const uniqueHashtags = new Set(hashtags);
   if (uniqueHashtags.size !== hashtags.length) {
     return false;
   }
 
-  // Проверяем каждый хэштег на соответствие паттерну
   return hashtags.every((hashtag) => ValidationSettings.VALID_HASHTAG_PATTERN.test(hashtag));
 };
 
