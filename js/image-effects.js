@@ -1,4 +1,5 @@
 import '../vendor/nouislider/nouislider.js';
+import { ModalClass } from './constants.js';
 
 const Scale = {
   MIN: 25,
@@ -78,11 +79,11 @@ let currentEffect = Effect.DEFAULT;
 const isDefault = () => currentEffect === Effect.DEFAULT;
 
 const hideSlider = () => {
-  uploadFormElement.querySelector('.img-upload__effect-level').classList.add('hidden');
+  uploadFormElement.querySelector('.img-upload__effect-level').classList.add(ModalClass.HIDDEN);
 };
 
 const showSlider = () => {
-  uploadFormElement.querySelector('.img-upload__effect-level').classList.remove('hidden');
+  uploadFormElement.querySelector('.img-upload__effect-level').classList.remove(ModalClass.HIDDEN);
 };
 
 const onSliderUpdate = () => {

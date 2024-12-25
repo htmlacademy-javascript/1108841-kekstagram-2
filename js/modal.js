@@ -1,10 +1,12 @@
 import { isEscapeKey } from './utils.js';
 import { ModalClass } from './constants.js';
 
-let isErrorMessageShown = false;
+const modalState = {
+  isErrorMessageShown: false
+};
 
 const closeModal = (element, callback) => {
-  if (isErrorMessageShown) {
+  if (modalState.isErrorMessageShown) {
     return;
   }
   element.classList.add(ModalClass.HIDDEN);
@@ -19,13 +21,13 @@ const openModal = (element, callback) => {
 };
 
 const createEscapeHandler = (action) => (evt) => {
-  if (isEscapeKey(evt) && !isErrorMessageShown) {
+  if (isEscapeKey(evt) && !modalState.isErrorMessageShown) {
     action();
   }
 };
 
 const setErrorState = (state) => {
-  isErrorMessageShown = state;
+  modalState.isErrorMessageShown = state;
 };
 
 export { closeModal, openModal, createEscapeHandler, setErrorState };

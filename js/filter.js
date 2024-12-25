@@ -1,21 +1,13 @@
 import { Filter, FilterSettings } from './constants.js';
 import { renderPictures } from './render-thumbnails.js';
-import { debounce } from './utils.js';
+import { createDebounced } from './utils.js';
 
 const filterElement = document.querySelector('.img-filters');
 const filterForm = document.querySelector('.img-filters__form');
 
 const getRandomPhotos = (photos) => {
   const photosCopy = [...photos];
-  const randomPhotos = [];
-
-  while (randomPhotos.length < FilterSettings.RANDOM_PHOTOS_COUNT && photosCopy.length > 0) {
-    const randomIndex = Math.floor(Math.random() * photosCopy.length);
-    randomPhotos.push(photosCopy[randomIndex]);
-    photosCopy.splice(randomIndex, 1);
-  }
-
-  return randomPhotos;
+  return photosCopy.slice(0, FilterSettings.RANDOM_PHOTOS_COUNT);
 };
 
 const getDiscussedPhotos = (photos) =>
@@ -28,16 +20,13 @@ const filterHandlers = {
 };
 
 const repaint = (photos, id) => {
-  if (!filterHandlers[id]) {
-    return;
-  }
   const filteredPhotos = filterHandlers[id](photos);
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((picture) => picture.remove());
   renderPictures(filteredPhotos);
 };
 
-const debouncedRepaint = debounce(repaint, FilterSettings.DEBOUNCE_DELAY);
+const debouncedRepaint = createDebounced(repaint, FilterSettings.DEBOUNCE_DELAY);
 
 const initFilters = (photos) => {
   if (!filterElement || !filterForm || !photos?.length) {
@@ -47,7 +36,10 @@ const initFilters = (photos) => {
   filterElement.classList.remove('img-filters--inactive');
 
   filterForm.addEventListener('click', (evt) => {
-    if (!evt.target.classList.contains('img-filters__button')) {
+    const clickedButton = evt.target;
+
+    if (!clickedButton.classList.contains('img-filters__button') ||
+        clickedButton.classList.contains('img-filters__button--active')) {
       return;
     }
 
@@ -55,9 +47,9 @@ const initFilters = (photos) => {
     if (activeButton) {
       activeButton.classList.remove('img-filters__button--active');
     }
-    evt.target.classList.add('img-filters__button--active');
 
-    debouncedRepaint(photos, evt.target.id);
+    clickedButton.classList.add('img-filters__button--active');
+    debouncedRepaint(photos, clickedButton.id);
   });
 };
 

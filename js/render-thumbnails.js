@@ -1,8 +1,9 @@
 import { openBigPicture } from './render-big-picture.js';
 
+const PICTURE_TEMPLATE = document.querySelector('#picture').content;
+
 const createThumbnail = (picture) => {
-  const template = document.querySelector('#picture').content;
-  const pictureElement = template.cloneNode(true);
+  const pictureElement = PICTURE_TEMPLATE.cloneNode(true);
   const img = pictureElement.querySelector('.picture__img');
 
   img.src = picture.url;

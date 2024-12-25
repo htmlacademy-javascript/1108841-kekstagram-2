@@ -1,6 +1,8 @@
-const isEscapeKey = (evt) => evt.key === 'Escape';
+import { Key } from './constants.js';
 
-const debounce = (callback, timeoutDelay) => {
+const isEscapeKey = (evt) => evt.key === Key.ESCAPE;
+
+const createDebounced = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
@@ -8,4 +10,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { isEscapeKey, debounce };
+export { isEscapeKey, createDebounced };
