@@ -2,41 +2,42 @@ import { setErrorState } from './modal.js';
 
 const showMessage = (type) => {
   const template = document.querySelector(`#${type}`).content;
-  const message = template.cloneNode(true);
-  document.body.append(message);
+  const messageElement = template.cloneNode(true);
+  document.body.append(messageElement);
 
-  const messageElement = document.querySelector(`.${type}`);
-  let escapeHandler = null;
-
-  if (type === 'error') {
-    setErrorState(true);
-  }
+  const messageContainer = document.querySelector(`.${type}`);
+  let onMessageEscKeydown = null;
+  let onMessageOutsideClick = null;
 
   const closeMessage = () => {
-    messageElement.remove();
-    document.removeEventListener('keydown', escapeHandler);
-    document.removeEventListener('click', onOutsideClick);
+    messageContainer.remove();
+    document.removeEventListener('keydown', onMessageEscKeydown);
+    document.removeEventListener('click', onMessageOutsideClick);
     if (type === 'error') {
       setErrorState(false);
     }
   };
 
-  function onOutsideClick(evt) {
+  onMessageOutsideClick = (evt) => {
     if (!evt.target.closest(`.${type}__inner`)) {
       closeMessage();
     }
-  }
+  };
 
-  escapeHandler = (evt) => {
+  onMessageEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
       evt.stopPropagation();
       closeMessage();
     }
   };
 
+  if (type === 'error') {
+    setErrorState(true);
+  }
+
   document.querySelector(`.${type}__button`).addEventListener('click', closeMessage);
-  document.addEventListener('keydown', escapeHandler);
-  document.addEventListener('click', onOutsideClick);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener('click', onMessageOutsideClick);
 };
 
 export { showMessage };
