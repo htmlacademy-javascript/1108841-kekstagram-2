@@ -7,7 +7,7 @@ import { SubmitButtonText, ErrorMessage } from './constants.js';
 import { validateHashtags, validateComment, getHashtagsErrorMessage } from './validate-form.js';
 import { closeModal, openModal, createEscapeHandler } from './modal.js';
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -21,7 +21,7 @@ let escapeHandler = null;
 
 const isValidType = (file) => {
   const fileName = file.name.toLowerCase();
-  return FILE_TYPES.some((it) => fileName.endsWith(it));
+  return ALLOWED_EXTENSIONS.some((it) => fileName.endsWith(it));
 };
 
 const pristine = new Pristine(uploadForm, {
