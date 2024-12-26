@@ -18,6 +18,7 @@ const ErrorMessage = {
 const ValidationSettings = {
   MAX_HASHTAGS: 5,
   MAX_COMMENT_LENGTH: 140,
+  MAX_HASHTAG_LENGTH: 20,
   VALID_HASHTAG_PATTERN: /^#[a-zа-яё0-9]{1,19}$/i
 };
 
