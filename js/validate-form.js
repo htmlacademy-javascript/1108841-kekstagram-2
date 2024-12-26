@@ -43,7 +43,7 @@ const getHashtagsErrorMessage = (value) => {
     if (!invalidHashtag.startsWith('#')) {
       return ErrorMessage.HASHTAG_START;
     }
-    if (invalidHashtag.length > 20) {
+    if (invalidHashtag.length > ValidationSettings.MAX_HASHTAG_LENGTH) {
       return ErrorMessage.HASHTAG_LENGTH;
     }
     return ErrorMessage.HASHTAG_PATTERN;
