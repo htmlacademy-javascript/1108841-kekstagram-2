@@ -9,8 +9,8 @@ const initApp = async () => {
     const photos = await getData();
     renderPictures(photos);
     initFilters(photos);
-  } catch {
-    showError();
+  } catch (err) {
+    showError(err.message);
   }
 };
 

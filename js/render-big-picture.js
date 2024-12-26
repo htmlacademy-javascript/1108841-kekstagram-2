@@ -40,7 +40,7 @@ const renderComment = ({ avatar, name, message }) => {
   return comment;
 };
 
-const showComments = () => {
+const onCommentsLoaderClick = () => {
   const commentsToShow = bigPictureState.currentComments.slice(
     bigPictureState.shownComments,
     bigPictureState.shownComments + CommentsSettings.COMMENTS_PER_PORTION
@@ -75,15 +75,15 @@ const initComments = (comments) => {
 const renderBigPicture = (photoData) => {
   renderBigPictureDetails(photoData);
   initComments(photoData.comments);
-  showComments();
+  onCommentsLoaderClick();
 };
 
-const closeBigPicture = () => {
+const onBigPictureCloseClick = () => {
   closeModal(bigPicture, bigPictureState.escapeHandler);
 };
 
 const openBigPicture = (photoData) => {
-  bigPictureState.escapeHandler = createEscapeHandler(closeBigPicture);
+  bigPictureState.escapeHandler = createEscapeHandler(onBigPictureCloseClick);
   openModal(bigPicture, bigPictureState.escapeHandler);
   commentCount.classList.remove(ModalClass.HIDDEN);
   renderBigPicture(photoData);
@@ -101,7 +101,7 @@ likesCount.addEventListener('click', () => {
   }
 });
 
-commentsLoader.addEventListener('click', showComments);
-closeButton.addEventListener('click', closeBigPicture);
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
+closeButton.addEventListener('click', onBigPictureCloseClick);
 
 export { openBigPicture };

@@ -9,7 +9,7 @@ const showMessage = (type) => {
   let onMessageEscKeydown = null;
   let onMessageOutsideClick = null;
 
-  const closeMessage = () => {
+  const onMessageButtonClick = () => {
     messageContainer.remove();
     document.removeEventListener('keydown', onMessageEscKeydown);
     document.removeEventListener('click', onMessageOutsideClick);
@@ -20,14 +20,14 @@ const showMessage = (type) => {
 
   onMessageOutsideClick = (evt) => {
     if (!evt.target.closest(`.${type}__inner`)) {
-      closeMessage();
+      onMessageButtonClick();
     }
   };
 
   onMessageEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
       evt.stopPropagation();
-      closeMessage();
+      onMessageButtonClick();
     }
   };
 
@@ -35,7 +35,7 @@ const showMessage = (type) => {
     setErrorState(true);
   }
 
-  document.querySelector(`.${type}__button`).addEventListener('click', closeMessage);
+  document.querySelector(`.${type}__button`).addEventListener('click', onMessageButtonClick);
   document.addEventListener('keydown', onMessageEscKeydown);
   document.addEventListener('click', onMessageOutsideClick);
 };
