@@ -28,6 +28,23 @@ const repaint = (photos, id) => {
 
 const debouncedRepaint = createDebounced(repaint, FilterSettings.DEBOUNCE_DELAY);
 
+const onFilterButtonClick = (evt, photos) => {
+  const clickedButton = evt.target;
+
+  if (!clickedButton.classList.contains('img-filters__button') ||
+      clickedButton.classList.contains('img-filters__button--active')) {
+    return;
+  }
+
+  const activeButton = filterForm.querySelector('.img-filters__button--active');
+  if (activeButton) {
+    activeButton.classList.remove('img-filters__button--active');
+  }
+
+  clickedButton.classList.add('img-filters__button--active');
+  debouncedRepaint(photos, clickedButton.id);
+};
+
 const initFilters = (photos) => {
   if (!filterElement || !filterForm || !photos?.length) {
     return;
@@ -35,22 +52,7 @@ const initFilters = (photos) => {
 
   filterElement.classList.remove('img-filters--inactive');
 
-  filterForm.addEventListener('click', (evt) => {
-    const clickedButton = evt.target;
-
-    if (!clickedButton.classList.contains('img-filters__button') ||
-        clickedButton.classList.contains('img-filters__button--active')) {
-      return;
-    }
-
-    const activeButton = filterForm.querySelector('.img-filters__button--active');
-    if (activeButton) {
-      activeButton.classList.remove('img-filters__button--active');
-    }
-
-    clickedButton.classList.add('img-filters__button--active');
-    debouncedRepaint(photos, clickedButton.id);
-  });
+  filterForm.addEventListener('click', (evt) => onFilterButtonClick(evt, photos));
 };
 
 export { initFilters };

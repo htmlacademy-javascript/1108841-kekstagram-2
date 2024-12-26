@@ -15,12 +15,14 @@ const createThumbnail = (picture) => {
   return pictureElement;
 };
 
+const onThumbnailClick = (evt, picture) => {
+  evt.preventDefault();
+  openBigPicture(picture);
+};
+
 const createBigPhotoLink = (thumbnailElement, picture) => {
   const thumbnailLink = thumbnailElement.querySelector('.picture');
-  thumbnailLink.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    openBigPicture(picture);
-  });
+  thumbnailLink.addEventListener('click', (evt) => onThumbnailClick(evt, picture));
 };
 
 const renderPictures = (pictures) => {

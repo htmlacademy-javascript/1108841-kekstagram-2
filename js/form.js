@@ -58,7 +58,7 @@ const unblockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.IDLE;
 };
 
-const closeUploadOverlay = () => {
+const onUploadCancelClick = () => {
   closeModal(uploadOverlay, escapeHandler);
   uploadForm.reset();
   pristine.reset();
@@ -75,7 +75,7 @@ const onUploadInputChange = () => {
     });
   }
 
-  escapeHandler = createEscapeHandler(closeUploadOverlay);
+  escapeHandler = createEscapeHandler(onUploadCancelClick);
   openModal(uploadOverlay, escapeHandler);
   initEffects();
   initScale();
@@ -92,7 +92,7 @@ const onUploadFormSubmit = async (evt) => {
     blockSubmitButton();
     await sendData(new FormData(uploadForm));
     unblockSubmitButton();
-    closeUploadOverlay();
+    onUploadCancelClick();
     showMessage('success');
   } catch (err) {
     unblockSubmitButton();
@@ -100,20 +100,20 @@ const onUploadFormSubmit = async (evt) => {
   }
 };
 
-const preventEscClose = (evt) => {
+const onInputEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 };
 
 uploadInput.addEventListener('change', onUploadInputChange);
-uploadCancel.addEventListener('click', closeUploadOverlay);
+uploadCancel.addEventListener('click', onUploadCancelClick);
 uploadForm.addEventListener('submit', onUploadFormSubmit);
-hashtagInput.addEventListener('keydown', preventEscClose);
-commentInput.addEventListener('keydown', preventEscClose);
+hashtagInput.addEventListener('keydown', onInputEscKeydown);
+commentInput.addEventListener('keydown', onInputEscKeydown);
 
 hashtagInput.addEventListener('input', () => {
   pristine.validate(hashtagInput);
 });
 
-export { closeUploadOverlay };
+export { onUploadCancelClick };
